@@ -3,7 +3,8 @@ name: Android CI Build Release
 on:
   push:
     tags:
-      - '[0-9]+.[0-9]+*'
+      - '[0-9]*.[0-9]*'
+      - 'v[0-9]*'
   workflow_dispatch:
 
 permissions:
@@ -43,8 +44,23 @@ jobs:
         env:
           ANDROID_NDK_HOME: ""
 
-      # 4. SIGN THE APK
-      - name: Sign APK
+      - name: Check signing secrets
+        id: check_signing
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          ALIAS: ${{ secrets.ALIAS }}
+          KEY_STORE_PASSWORD: ${{ secrets.KEY_STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -n "$SIGNING_KEY" ] && [ -n "$ALIAS" ] && [ -n "$KEY_STORE_PASSWORD" ] && [ -n "$KEY_PASSWORD" ]; then
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 4a. SIGN THE APK WITH CONFIGURED RELEASE KEYSTORE SECRETS
+      - name: Sign APK (Release Keystore)
+        if: steps.check_signing.outputs.has_key == 'true'
         uses: r0adkll/sign-android-release@v1
         id: sign_app
         with:
@@ -56,28 +72,67 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "27.0.3"
 
+      # 4b. FALLBACK SIGNING SO APK IS INSTALLABLE EVEN WITHOUT REPO SECRETS
+      - name: Sign APK (Fallback CI Keystore)
+        if: steps.check_signing.outputs.has_key != 'true'
+        id: sign_app_fallback
+        run: |
+          unsigned_apk=$(ls app/build/outputs/apk/release/*.apk | head -n 1)
+          aligned_apk="/tmp/aligned.apk"
+          signed_apk="/tmp/com.agf.advancesleep-release-signed.apk"
+
+          keytool -genkeypair -noprompt -v \
+            -keystore /tmp/ci-fallback.jks \
+            -alias advancesleep \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass android -keypass android \
+            -dname "CN=Advance Sleep,O=AGF,C=US"
+
+          "$ANDROID_HOME/build-tools/27.0.3/zipalign" -f -p 4 "$unsigned_apk" "$aligned_apk"
+          "$ANDROID_HOME/build-tools/27.0.3/apksigner" sign \
+            --ks /tmp/ci-fallback.jks \
+            --ks-key-alias advancesleep \
+            --ks-pass pass:android \
+            --key-pass pass:android \
+            --out "$signed_apk" \
+            "$aligned_apk"
+
+          rm -f "$aligned_apk" /tmp/ci-fallback.jks
+          echo "signedReleaseFile=$signed_apk" >> "$GITHUB_OUTPUT"
+
       # 5. RENAME THE SIGNED APK
       - name: Rename for Release
         id: rename_apk
+        env:
+          SIGNED_SECRET_APK: ${{ steps.sign_app.outputs.signedReleaseFile }}
+          SIGNED_FALLBACK_APK: ${{ steps.sign_app_fallback.outputs.signedReleaseFile }}
         run: |
-          raw_tag=${GITHUB_REF#refs/tags/}
-          if [ "$raw_tag" = "workflow_dispatch" ] || [ "$raw_tag" = "master" ] || [[ "$raw_tag" == refs/heads/* ]]; then
-            clean_tag="manual"
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            clean_tag="${GITHUB_REF#refs/tags/}"
           else
-            clean_tag="${raw_tag//./}"
+            clean_tag="manual"
           fi
-          
-          signed_file="${{ steps.sign_app.outputs.signedReleaseFile }}"
-          new_name="advance-sleep-${clean_tag}.apk"
-          
-          mv "$signed_file" "app/build/outputs/apk/release/$new_name"
-          echo "new_path=app/build/outputs/apk/release/$new_name" >> $GITHUB_OUTPUT
 
-      # 6. PUBLISH TO GITHUB RELEASES
+          signed_file="${SIGNED_SECRET_APK:-$SIGNED_FALLBACK_APK}"
+          new_name="advance-sleep-${clean_tag}.apk"
+
+          mv "$signed_file" "app/build/outputs/apk/release/$new_name"
+          echo "new_path=app/build/outputs/apk/release/$new_name" >> "$GITHUB_OUTPUT"
+
+      # 6. UPLOAD APK AS WORKFLOW ARTIFACT
+      - name: Upload Release APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: advance-sleep-release-apk
+          path: ${{ steps.rename_apk.outputs.new_path }}
+          if-no-files-found: error
+
+      # 7. PUBLISH TO GITHUB RELEASES
       - name: Create GitHub Release and Upload
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
+          name: "Advance Sleep ${{ github.ref_name }}"
           files: ${{ steps.rename_apk.outputs.new_path }}
           generate_release_notes: true
         env:
