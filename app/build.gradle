@@ -5,11 +5,11 @@ android {
     buildToolsVersion '27.0.3'
     
     defaultConfig {
-        applicationId "com.mine.autosleep"
+        applicationId "com.agf.advancesleep"
         minSdkVersion 24
         targetSdkVersion 27
-        versionCode 9
-        versionName "3.2"
+        versionCode 1
+        versionName "1.0"
     }
     
     buildTypes {
@@ -25,7 +25,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "com.mine.autosleep-${variant.buildType.name}.apk"
+            outputFileName = "com.agf.advancesleep-${variant.buildType.name}.apk"
         }
     }
 }

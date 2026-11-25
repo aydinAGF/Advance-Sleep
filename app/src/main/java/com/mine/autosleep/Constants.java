@@ -15,6 +15,13 @@ public class Constants {
     public static final String ORIGIN_ALARM = "alarm";
     public static final String ORIGIN_MANUAL = "manual";
 
+    // Sleep action preferences (default true)
+    static final String PREF_ENABLE_AIRPLANE_MODE = "enable_airplane_mode";
+    static final String PREF_DISABLE_WIFI = "disable_wifi";
+    static final String PREF_DISABLE_BLUETOOTH = "disable_bluetooth";
+    static final String PREF_FORCE_DOZE = "force_doze";
+    static final String PREF_DISABLE_SENSORS = "disable_sensors";
+
     // Sleep mode state + snapshot (restore always)
     static final String PREF_SLEEP_ACTIVE = "sleepActive";
     static final String SNAP_AIRPLANE = "snap_airplane";
@@ -27,10 +34,17 @@ public class Constants {
     static final String SNAP_WIFI_UP_IFACES = "snap_wifi_up_ifaces";
     static final String SNAP_VALID = "snap_valid";
 
+    // Snapshot flags recording which actions were enabled at Sleep Mode entry
+    static final String SNAP_APPLIED_AIRPLANE = "snap_applied_airplane";
+    static final String SNAP_APPLIED_WIFI = "snap_applied_wifi";
+    static final String SNAP_APPLIED_BT = "snap_applied_bt";
+    static final String SNAP_APPLIED_DOZE = "snap_applied_doze";
+    static final String SNAP_APPLIED_SENSORS = "snap_applied_sensors";
+
     // Notification + actions
     static final int NOTIF_ID_SLEEP = 1;
     static final String NOTIF_CHANNEL_ID = "sleep_mode";
-    static final String ACTION_EXIT_NOW = "com.mine.autosleep.action.EXIT_NOW";
+    static final String ACTION_EXIT_NOW = "com.agf.advancesleep.action.EXIT_NOW";
 
     // JobIntentService job id (unique within app)
     static final int JOB_ID = 1001;
@@ -39,7 +53,7 @@ public class Constants {
     static final String PREF_POPUP_COUNTDOWN = "popup_countdown";
     static final String PREF_DELAY_TIMER = "delay_timer";
     static final String PREF_CANCEL_COUNTDOWN = "cancel_countdown";
-    static final String ACTION_DELAY_SLEEP = "com.mine.autosleep.action.DELAY_SLEEP";
+    static final String ACTION_DELAY_SLEEP = "com.agf.advancesleep.action.DELAY_SLEEP";
     static final int NOTIF_ID_COUNTDOWN = 2;
     static final String NOTIF_CHANNEL_ID_URGENT = "sleep_mode_urgent";
 }

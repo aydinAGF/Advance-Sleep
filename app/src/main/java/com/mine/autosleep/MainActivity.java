@@ -162,6 +162,24 @@ public class MainActivity extends Activity {
         editDisableSleep.setText(settings.getString(Constants.DISABLE_SLEEP_TIME, "08:00"));
 
         switchApp.setChecked(settings.getBoolean(Constants.APP_IS_ENABLED, false));
+
+        bindActionSwitch(settings, R.id.switchAirplaneMode, Constants.PREF_ENABLE_AIRPLANE_MODE);
+        bindActionSwitch(settings, R.id.switchDisableWifi, Constants.PREF_DISABLE_WIFI);
+        bindActionSwitch(settings, R.id.switchDisableBluetooth, Constants.PREF_DISABLE_BLUETOOTH);
+        bindActionSwitch(settings, R.id.switchForceDoze, Constants.PREF_FORCE_DOZE);
+        bindActionSwitch(settings, R.id.switchDisableSensors, Constants.PREF_DISABLE_SENSORS);
+    }
+
+    private void bindActionSwitch(final SharedPreferences settings, int switchId, final String prefKey) {
+        Switch actionSwitch = (Switch) findViewById(switchId);
+        if (actionSwitch == null) return;
+        actionSwitch.setChecked(settings.getBoolean(prefKey, true));
+        actionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settings.edit().putBoolean(prefKey, isChecked).apply();
+            }
+        });
     }
 
     @Override
@@ -173,7 +191,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    // Ask the system to exempt Auto Sleep from battery optimization (Unrestricted).
+    // Ask the system to exempt Advance Sleep from battery optimization (Unrestricted).
     private void ensureBatteryExemption() {
         PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (powerManager == null || powerManager.isIgnoringBatteryOptimizations(getPackageName())) {

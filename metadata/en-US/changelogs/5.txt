@@ -1,7 +1,0 @@
-Changes in Release 2.2:
-
-- Fixed the Quick Settings tile chevron display and resolved issues when manually enabling or disabling Auto Sleep via Quick Settings under certain conditions.
-
-Changes in Release 2.1:
-
-- Enhanced Wi‑Fi sleep behavior introduced in Android 9 by keeping the Wi‑Fi chip fully dormant when off, reducing battery drain by up to 6× on tested devices.

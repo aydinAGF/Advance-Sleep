@@ -122,7 +122,7 @@ public class AutoSleepService extends JobIntentService {
         NotificationCompat.Builder b = new NotificationCompat.Builder(this, Constants.NOTIF_CHANNEL_ID_URGENT)
                 .setSmallIcon(R.drawable.ic_stat_autosleep)
                 .setContentTitle("Sleep Mode Imminent")
-                .setContentText("Auto Sleep will trigger in " + secondsLeft + " seconds.")
+                .setContentText("Advance Sleep will trigger in " + secondsLeft + " seconds.")
                 .setOngoing(true)
                 .setOnlyAlertOnce(true) // Ensures it doesn't vibrate/ding on every second tick
                 .setPriority(NotificationCompat.PRIORITY_HIGH); // Required for Heads-Up popup

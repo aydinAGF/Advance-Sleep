@@ -111,5 +111,88 @@
                 android:textSize="18sp" />
         </RadioGroup>
 
+        <View
+            android:id="@+id/dividerSleepActions"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/radioGroupStartDay"
+            android:layout_marginTop="20dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/sleepActionsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dividerSleepActions"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/sleep_actions"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/layoutSleepActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sleepActionsText"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/switchAirplaneMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:checked="true"
+                android:text="@string/action_enable_airplane_mode"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switchDisableWifi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:checked="true"
+                android:text="@string/action_disable_wifi"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switchDisableBluetooth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:checked="true"
+                android:text="@string/action_disable_bluetooth"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switchForceDoze"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:checked="true"
+                android:text="@string/action_force_doze"
+                android:textSize="18sp" />
+
+            <Switch
+                android:id="@+id/switchDisableSensors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:checked="true"
+                android:text="@string/action_disable_sensors"
+                android:textSize="18sp" />
+        </LinearLayout>
+
     </RelativeLayout>
 </ScrollView>

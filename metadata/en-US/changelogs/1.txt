@@ -1,1 +1,3 @@
-Initial release of the Auto Airplane Mode application that is available in F-Droid archive repository, featuring a rebranded name and slightly update UI. The app automatically toggles Aeroplane mode on or off based on user's predefined schedule.
+- Initial release of Advance Sleep (v1.0) under package com.agf.advancesleep.
+- Added independent toggles for Airplane mode, Wi-Fi, Bluetooth, Force Doze, and Device Sensors (Android 10+).
+- Selective state snapshot and restoration on Sleep mode entry and exit across both scheduled alarms and the Quick Settings tile.

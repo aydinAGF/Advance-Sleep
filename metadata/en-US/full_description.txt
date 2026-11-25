@@ -1,20 +1,18 @@
-<b>Auto Sleep</b>
+<b>Advance Sleep</b>
 
-Auto Sleep is a specialized utility designed for users who prefer to rest without interruptions from their devices, whether at night or during the day for those working shift duties.
-
-Initially designed for Android 6.0 Marshmallow, the app is built to remain compatible with most recent Android versions.
+Advance Sleep is a specialized utility designed for users who prefer to rest without interruptions from their devices, whether at night or during the day for those working shift duties.
 
 <b>How It Works</b>
 
-The app automatically toggles Airplane Mode on or off based on your predefined schedule.
+The app automatically enters and exits Sleep mode based on your predefined schedule or Quick Settings tile, with independent toggles for Airplane Mode, Wi-Fi, Bluetooth, Force Doze, and Device Sensors (Android 10+).
 
 <b>Note:</b> Root access is required for this app to function properly.
 
 <b>Permissions & Privacy</b>
 
-To provide reliable system automation without compromising privacy, Auto Sleep uses:
+To provide reliable system automation without compromising privacy, Advance Sleep uses:
 
-• Root Access & Secure Settings: Necessary to grant the app elevated privileges and modify protected system-level sleep/Do Not Disturb configurations that are normally restricted by Android.
+• Root Access & Secure Settings: Necessary to grant the app elevated privileges and modify protected system-level sleep, radio, Doze, and sensor privacy configurations.
 • Exact Alarm Scheduling: Used to trigger the start and end of sleep mode at precise times, ensuring the app executes its tasks exactly when you scheduled them.
 • Run at Startup (Boot Completion): Ensures your sleep schedule is automatically reactivated and recalculated immediately after a device reboot.
 • Notifications: Used to inform you when sleep mode has been enabled automatically and to provide details on when it will be disabled.

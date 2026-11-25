@@ -1,1 +1,0 @@
-- Fixed root detection issues on Android 13+.
